@@ -9,5 +9,18 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'Add-Border';
+  onAddBorderClick() {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      if (tabs[0].id !== undefined) {
+        chrome.scripting.executeScript({
+          target: { tabId: tabs[0].id },
+          func: addBorder,
+        });
+      }
+    });
+  }
+}
+
+function addBorder() {
+  document.body.style.border = "5px solid red";
 }

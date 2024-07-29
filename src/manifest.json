@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Border Extension",
+  "version": "1.0",
+  "description": "Adds a border to the current page",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "assets/16x16.jpg",
+      "48": "assets/48x48.png",
+      "128": "assets/128x128.jpg"
+    }
+  }
+}
