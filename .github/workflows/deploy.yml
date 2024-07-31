@@ -1,9 +1,9 @@
 name: Upload to Chrome Web Store
 
 on:
+  workflow_dispatch:
   push:
-    tags:
-      - '*'
+    branches: [ main ]
 
 jobs:
   upload:
