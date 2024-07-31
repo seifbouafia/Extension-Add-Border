@@ -17,8 +17,15 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+
+      - name: Prepare for zipping
+        run: |
+          mkdir extension
+          cp -r dist/add-border/browser/* extension/
+
       - name: Zip
-        run: zip -r dist.zip dist
+        run: zip -r dist.zip extension
+
       - name: Upload to Chrome Web Store
         uses: mnao305/chrome-extension-upload@v5.0.0
         with:
