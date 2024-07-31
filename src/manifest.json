@@ -1,7 +1,12 @@
 {
   "manifest_version": 3,
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "ahmedboukha126@gmail.com"
+    }
+  },
   "name": "Border Extension",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Adds a border to the current page",
   "permissions": [
     "activeTab",
