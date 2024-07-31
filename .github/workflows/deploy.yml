@@ -21,19 +21,40 @@ jobs:
       - name: Build
         run: npm run build
 
-      # Ajoutez l'étape d'incrémentation ici, juste avant l'étape de compression
       - name: Increment version
         run: |
-          cd dist/add-border/browser  # Assurez-vous que c'est le bon chemin vers votre manifest.json
-          VERSION=$(grep '"version"' manifest.json | sed 's/.*: "\(.*\)".*/\1/')
-          MAJOR=$(echo $VERSION | cut -d. -f1)
-          MINOR=$(echo $VERSION | cut -d. -f2)
-          PATCH=$(echo $VERSION | cut -d. -f3)
-          NEW_PATCH=$((PATCH + 1))
-          NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
-          sed -i 's/"version": "'$VERSION'"/"version": "'$NEW_VERSION'"/' manifest.json
-          echo "New version: $NEW_VERSION"
-          cd ../../..  # Retour au répertoire racine
+          escape_string() {
+            local unescaped_text="$1"
+            local escaped_text=""
+
+            # Escape special characters for use in regular expressions
+            escaped_text=$(echo "$unescaped_text" | sed 's/\([][\/.]\)/\\\1/g')
+
+            echo "$escaped_text"
+          }
+
+          cd dist/add-border/browser
+
+          current_version=$(grep '"version"' manifest.json | sed 's/.*: "\(.*\)".*/\1/')
+          IFS='.' read -ra parts <<< "$current_version"
+          major="${parts[0]}"
+          minor="${parts[1]}"
+          patch="${parts[2]}"
+
+          # Vérifiez le titre de la PR
+          PR_TITLE="${{ github.event.head_commit.message }}"
+          if [[ "$PR_TITLE" == *"[MINOR]"* ]]; then
+            minor=$((minor + 1))
+          elif [[ "$PR_TITLE" == *"[MAJOR]"* ]]; then
+            major=$((major + 1))
+          else
+            patch=$((patch + 1))
+          fi
+
+          new_version="$major.$minor.$patch"
+          sed -i 's/"version": "'$current_version'"/"version": "'$new_version'"/' manifest.json
+          echo "New version: $new_version"
+          cd ../../..
 
       - name: Zip
         run: |
