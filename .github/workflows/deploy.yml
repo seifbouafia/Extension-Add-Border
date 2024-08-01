@@ -2,12 +2,14 @@ name: Upload to Chrome Web Store
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
+  pull_request:
+    types: [closed]
+    branches: [main]
 
 jobs:
   upload:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,8 +43,8 @@ jobs:
           minor="${parts[1]}"
           patch="${parts[2]}"
 
-          # Vérifiez le titre de la PR
-          PR_TITLE="${{ github.event.head_commit.message }}"
+          # Check the PR title
+          PR_TITLE="${{ github.event.pull_request.title }}"
           if [[ "$PR_TITLE" == *"[MINOR]"* ]]; then
             minor=$((minor + 1))
           elif [[ "$PR_TITLE" == *"[MAJOR]"* ]]; then
