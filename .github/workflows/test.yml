@@ -29,16 +29,9 @@ jobs:
       - name: Generate coverage report
         run: npm run test:coverage
 
-#      - name: Update README with coverage
-#        if: github.ref == 'refs/heads/main'
-#        run: |
-#          coverage=$(cat coverage/coverage-summary.json | jq -r '.total.lines.pct')
-#          sed -i "s/Coverage: [0-9.]*%/Coverage: $coverage%/" README.md
-#
-#      - name: Commit and push if coverage changed
-#        if: github.ref == 'refs/heads/main'
-#        run: |
-#          git config --global user.email "actions@github.com"
-#          git config --global user.name "GitHub Actions"
-#          git add README.md
-#          git diff --quiet && git diff --staged --quiet || (git commit -m "[skip ci] Update README with new test coverage" && git push)
+      - name: Commit and push if coverage changed
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "[skip ci] Update README with new test coverage" && git push)
