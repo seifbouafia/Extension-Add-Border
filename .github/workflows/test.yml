@@ -1,0 +1,46 @@
+name: Testing
+
+on:
+  push:
+    branches-ignore:
+      - release
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository (if main branch)
+        uses: actions/checkout@v4
+        if: github.ref == 'refs/heads/main'
+        with:
+          token: ${{ secrets.BOT_GITHUB_ACTION_TOKEN }}
+
+      - name: Checkout repository (if branch is not main)
+        uses: actions/checkout@v4
+        if: github.ref != 'refs/heads/main'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Testing
+        run: npm run test -- --browsers=ChromeHeadless --watch=false --code-coverage
+
+      - name: Push changes to main
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git pull origin main
+          npm run make-test-coverage-badges
+          if [[ $(git status --porcelain) != "" ]]; then
+            git config --global user.email "actions@github.com"
+            git config --global user.name "GitHub Actions"
+            git add .
+            git commit -m "[skip actions] Update README.md with new test coverage results"
+            git push origin main
+          fi
