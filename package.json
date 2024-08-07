@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod && tsc src/app/content-script.ts --outDir dist/angular-extension",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:Add-Border": "node dist/add-border/server/server.mjs"

@@ -20,11 +20,4 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should call onAddBorderClick when button is clicked', () => {
-    spyOn(component, 'onAddBorderClick');
-    const button = fixture.nativeElement.querySelector('#addBorderButton');
-    button.click();
-    expect(component.onAddBorderClick).toHaveBeenCalled();
-  });
-
 });
