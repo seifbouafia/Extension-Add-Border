@@ -1,0 +1,34 @@
+name: Testing
+
+on:
+  push:
+    branches-ignore:
+      - release
+  pull_request:
+    branches: [1-adding-unit-testing]
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test -- --browsers=ChromeHeadless --watch=false --code-coverage
+
+      - name: Commit and push if coverage changed
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "[skip ci] Update README with new test coverage" && git push)

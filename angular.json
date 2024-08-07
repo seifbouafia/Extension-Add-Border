@@ -26,9 +26,7 @@
                 "input": "public"
               },
               "src/manifest.json",
-              "src/assets",
-              "src/favicon.ico",
-              "src/app.component.html"
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"
