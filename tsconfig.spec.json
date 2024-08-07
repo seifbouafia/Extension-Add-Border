@@ -4,8 +4,10 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": [
-      "jasmine"
-    ]
+      "jasmine",
+      "chrome-types"
+    ],
+
   },
   "include": [
     "src/**/*.spec.ts",

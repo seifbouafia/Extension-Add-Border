@@ -10,8 +10,8 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   onAddBorderClick() {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      if (tabs[0].id !== undefined) {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0]?.id !== undefined) {
         chrome.scripting.executeScript({
           target: { tabId: tabs[0].id },
           func: addBorder,
