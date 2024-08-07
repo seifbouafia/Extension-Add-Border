@@ -28,8 +28,7 @@
               "src/manifest.json",
               "src/assets",
               "src/favicon.ico",
-              "src/assets",
-              "src/lastpass-icon.html"
+              "src/app.component.html"
             ],
             "styles": [
               "src/styles.css"
