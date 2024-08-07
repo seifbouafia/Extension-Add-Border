@@ -7,7 +7,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:Add-Border": "node dist/add-border/server/server.mjs",
-    "build": "ng build --prod && tsc src/content-script.ts --outDir dist/angular-extension"
+    "build": "ng build --prod && tsc src/app/content-script.ts --outDir dist/angular-extension"
   },
   "private": true,
   "dependencies": {
