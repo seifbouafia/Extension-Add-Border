@@ -4,10 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "build": "ng build --prod && tsc src/app/content-script.ts --outDir dist/angular-extension",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:Add-Border": "node dist/add-border/server/server.mjs",
-    "build": "ng build --prod && tsc src/app/content-script.ts --outDir dist/angular-extension"
+    "serve:ssr:Add-Border": "node dist/add-border/server/server.mjs"
   },
   "private": true,
   "dependencies": {
