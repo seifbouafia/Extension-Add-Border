@@ -10,8 +10,12 @@
   "description": "Adds a border to the current page",
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "storage"
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "index.html",
     "default_icon": {
@@ -19,5 +23,17 @@
       "48": "assets/48x48.png",
       "128": "assets/128x128.jpg"
     }
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/lastpass-icon.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }

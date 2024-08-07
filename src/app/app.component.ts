@@ -24,3 +24,4 @@ export class AppComponent {
 function addBorder() {
   document.body.style.border = "5px solid red";
 }
+
