@@ -1,20 +1,19 @@
-fetch(chrome.runtime.getURL('assets/app.component.html'))
-  .then(response => response.text())
-  .then(template => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(template, 'text/html');
-    const lastPassIcon = doc.body.firstChild as HTMLElement;
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import {enableProdMode} from "@angular/core";
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
 
-    if (!lastPassIcon) {
-      console.error('Failed to load the LastPass icon.');
-      return;
-    }
+if (environment.production) {
+  enableProdMode();
+}
 
-    function injectIcon(inputElement : HTMLInputElement) {
-      const iconClone = lastPassIcon.cloneNode(true)
-      inputElement.parentNode?.insertBefore(iconClone, inputElement.nextSibling);
-    }
+document.querySelectorAll<HTMLInputElement>('input[type="password"], input[name="password"], input[type="name"], input[name="name"]').forEach((inputElement) => {
+  const lastPassIconContainer = document.createElement('div');
+  inputElement.parentNode?.insertBefore(lastPassIconContainer, inputElement.nextSibling);
 
-    document.querySelectorAll<HTMLInputElement>('input[type="password"], input[name="password"], input[type="name"], input[name="name"]').forEach(injectIcon);
-  })
-  .catch(error => console.error('Error fetching the LastPass icon:', error));
+  // Bootstrap Angular inside the created div
+  platformBrowserDynamic().bootstrapModule(AppModule).then(ref => {
+    const appRoot = document.createElement('app-last-pass-icon');
+    lastPassIconContainer.appendChild(appRoot);
+  }).catch(err => console.error(err));
+});
